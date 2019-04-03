@@ -61,13 +61,13 @@ public  class Contact {
         contact.showContact();
         contact.addContact();
         contact.showContact();
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("enter a number between 1 to 5");
-//        int userInput = scanner.nextInt();
-////        if (userInput == 1) {
-//
-//
-//            contacts.showContact();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("enter a number between 1 to 5");
+        int userInput = scanner.nextInt();
+//        if (userInput == 1) {
+
+
+            contact.showContact();
 ////            if(userInput==2){
 ////
 ////                Contact.addContact();
