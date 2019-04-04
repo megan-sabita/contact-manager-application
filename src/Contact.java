@@ -11,6 +11,8 @@ public  class Contact {
     public String filename = "contact.txt";
     public Path dataDirectory = Paths.get(directory);
     public Path dataFile = Paths.get(directory, filename);
+    public String name;
+    public String phnNumber;
 
     public void showContact() {
 int i=1;
@@ -23,6 +25,7 @@ int i=1;
             }
 //
             List<String> lines = Files.readAllLines(dataFile);
+
             for (String line : lines) {
                 System.out.format(" %6s %6s" ,"\n"+i,line);
                 i++;
@@ -38,14 +41,10 @@ int i=1;
 
     public static void deleteContact() throws Exception {
 
-//        String contactName;
-
         String directory = "data";
         String filename = "contact.txt";
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
-
-//        List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
 
         List<String> lines = Files.readAllLines(dataFile);
 
@@ -54,32 +53,23 @@ int i=1;
         Scanner scanner=new Scanner(System.in);
 
         int userInput=scanner.nextInt();
-
-        for(int i=0;i<lines.size();i++) {
-
-//            if(lines.contains(userInput)) {
-                lines.remove( userInput );
-//            }else{
-//                System.out.println("we don't have this id number");
-//            }
-
-        }
-
-        Files.write(Paths.get("data", "contact.txt"),lines);
-
+            lines.remove(userInput - 1);
+            Files.write(Paths.get("data", "contact.txt"),lines);
     }
 
 
     public Contact(String directory, String filename) {
         this.directory = directory;
         this.filename=filename;
+        this.name=name;
+        this.phnNumber=phnNumber;
 
     }
 
     public static void addContact() throws Exception {
 
 
-//        String contactName;
+
 
         String directory = "data";
         String filename = "contact.txt";
@@ -100,7 +90,6 @@ int i=1;
         );
 
         System.out.format("  %-8s ","\n"+contactList.add(contactInfo));
-//        Contact.showContact();
 
     }
 
@@ -112,13 +101,17 @@ int i=1;
         Path dataFile = Paths.get(directory, filename);
 
         List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
+        System.out.println("Enter a name.");
+
         Scanner scanner = new Scanner(System.in);
         String contactInfo = scanner.nextLine();
+        String newContactInfo=contactInfo.substring(1);
 
-        if(contactList.contains(contactInfo)){
-            System.out.println(contactInfo);
+            if (contactList.contains(newContactInfo)) {
+                System.out.println("here is what you searched for:" );
+            }
         }
-    }
+
 
     public static void main(String[] args) throws Exception {
         System.out.println("1: Show all your contacts\n" +
@@ -140,12 +133,12 @@ int i=1;
             contact.addContact();
         }
         else if (userInput == 3) {
-=           System.out.println("Enter a name.");
-            contact.searchContact();
+
+            Contact.searchContact();
         }
         else if (userInput==4) {
-//                Contact contacts1 = new Contact("data","contact.txt");
-//                contact.showContact();
+//
+
             contact.deleteContact();
             contact.showContact();
         }
