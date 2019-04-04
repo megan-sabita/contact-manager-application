@@ -47,7 +47,11 @@ int i=1;
         Scanner scanner=new Scanner(System.in);
         int userInput=scanner.nextInt();
         for(int i=0;i<lines.size();i++) {
-            lines.remove(userInput - 1);
+            if(lines.contains(userInput)) {
+                lines.remove(userInput - 1);
+            }else{
+                System.out.println("we don't have this id number");
+            }
 
         }
 
