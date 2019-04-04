@@ -35,23 +35,33 @@ int i=1;
     }
 
 
+
     public static void deleteContact() throws Exception {
+
+//        String contactName;
+
         String directory = "data";
         String filename = "contact.txt";
-        String contactName;
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
+
 //        List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
+
         List<String> lines = Files.readAllLines(dataFile);
+
         System.out.println("enter the id no you want to delete: ");
+
         Scanner scanner=new Scanner(System.in);
+
         int userInput=scanner.nextInt();
+
         for(int i=0;i<lines.size();i++) {
-            if(lines.contains(userInput)) {
-                lines.remove(userInput - 1);
-            }else{
-                System.out.println("we don't have this id number");
-            }
+
+//            if(lines.contains(userInput)) {
+                lines.remove( userInput );
+//            }else{
+//                System.out.println("we don't have this id number");
+//            }
 
         }
 
@@ -67,22 +77,25 @@ int i=1;
     }
 
     public static void addContact() throws Exception {
+
+
+//        String contactName;
+
         String directory = "data";
         String filename = "contact.txt";
-        String contactName;
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
+
+
        List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
         System.out.println("enter your contact name and phn no: ");
         Scanner scanner=new Scanner(System.in);
         String contactInfo = scanner.nextLine();
 
 
-
-
         Files.write(
                 Paths.get("data", "contact.txt"),
-                Arrays.asList( contactInfo),
+                Arrays.asList(contactInfo),
                 StandardOpenOption.APPEND
         );
 
@@ -91,6 +104,21 @@ int i=1;
 
     }
 
+
+    public static void searchContact() throws Exception{
+        String directory = "data";
+        String filename = "contact.txt";
+        Path dataDirectory = Paths.get(directory);
+        Path dataFile = Paths.get(directory, filename);
+
+        List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
+        Scanner scanner = new Scanner(System.in);
+        String contactInfo = scanner.nextLine();
+
+        if(contactList.contains(contactInfo)){
+            System.out.println(contactInfo);
+        }
+    }
 
     public static void main(String[] args) throws Exception {
         System.out.println("1: Show all your contacts\n" +
@@ -106,22 +134,20 @@ int i=1;
         System.out.println("enter a number between 1 to 5");
         int userInput = scanner.nextInt();
         if (userInput == 1) {
-
-
             contact.showContact();
         }
-            else if (userInput == 2) {
-
-                Contact contacts = new Contact("data","contact.txt");
-                Contact.addContact();
-            Contact contacts1 = new Contact("data","contact.txt");
-                contacts1.showContact();
-
-            }
-            else if(userInput==4){
-            Contact contacts1 = new Contact("data","contact.txt");
-                Contact.deleteContact();
-                contact.showContact();
+        else if (userInput == 2) {
+            contact.addContact();
+        }
+        else if (userInput == 3) {
+=           System.out.println("Enter a name.");
+            contact.searchContact();
+        }
+        else if (userInput==4) {
+//                Contact contacts1 = new Contact("data","contact.txt");
+//                contact.showContact();
+            contact.deleteContact();
+            contact.showContact();
         }
 
         }
