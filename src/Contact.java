@@ -7,10 +7,10 @@ import java.io.IOException;
 
 
 public  class Contact {
-    public String directory = "data";
-    public String filename = "contact.txt";
-    public Path dataDirectory = Paths.get(directory);
-    public Path dataFile = Paths.get(directory, filename);
+    public static String directory = "data";
+    public static String filename = "contact.txt";
+    public static Path dataDirectory = Paths.get(directory);
+    public static Path dataFile = Paths.get(directory, filename);
     public String name;
     public String phnNumber;
 
@@ -90,36 +90,57 @@ int i=1;
         );
 
         System.out.format("  %-8s ","\n"+contactList.add(contactInfo));
+        System.out.println("do you want to continue?");
+        String userInput=scanner.nextLine();
+        if(userInput.equalsIgnoreCase("y")|| userInput.equalsIgnoreCase("yes"));
+        menu();
+
 
     }
 
 
-    public static void searchContact() throws Exception{
+    public String searchContact() throws Exception{
         String directory = "data";
         String filename = "contact.txt";
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
 
         List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
-        System.out.println("Enter a name.");
+//        System.out.println("Enter a name.");
+//
+//        Scanner scanner = new Scanner(System.in);
+//        String contactInfo = scanner.next();
+//
+//
+//            if (contactList.contains(contactInfo)) {
+//                System.out.println("here is what you searched for:" + contactInfo);
+//            }
 
-        Scanner scanner = new Scanner(System.in);
-        String contactInfo = scanner.nextLine();
-        String newContactInfo=contactInfo.substring(1);
-
-            if (contactList.contains(newContactInfo)) {
-                System.out.println("here is what you searched for:" );
-            }
+        int itemIndex = contactList.indexOf(contactList);
+        if (itemIndex >= 0){
+            return contactList.get(itemIndex);
+        }
+        return "not found";
         }
 
 
+
+    public static void menu() {
+        int userInput = 0;
+
+        do {
+
+            System.out.println("1: Show all your contacts\n" +
+                    "2: Add a new contact\n" +
+                    "3: Search a contact by their name\n" +
+                    "4: Delete an existing contact\n" +
+                    "5: Edit a contact\n" +
+                    "0: Exit");
+        }while (userInput != 0);
+    }
+
     public static void main(String[] args) throws Exception {
-        System.out.println("1: Show all your contacts\n" +
-                "2: Add a new contact\n" +
-                "3: Search a contact by their name\n" +
-                "4: Delete an existing contact\n" +
-                "5: Edit a contact\n" +
-                "0: Exit");
+       menu();
         Contact contact = new Contact("data","contact.txt");
 
 
@@ -128,19 +149,23 @@ int i=1;
         int userInput = scanner.nextInt();
         if (userInput == 1) {
             contact.showContact();
+            menu();
         }
         else if (userInput == 2) {
             contact.addContact();
+            menu();
         }
         else if (userInput == 3) {
 
-            Contact.searchContact();
+            searchContact();
+            menu();
         }
         else if (userInput==4) {
 //
 
             contact.deleteContact();
             contact.showContact();
+            menu();
         }
 
         }
