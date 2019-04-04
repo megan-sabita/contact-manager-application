@@ -39,22 +39,26 @@ int i=1;
 
 
 
-    public static void deleteContact() throws Exception {
+    public static void deleteContact() {
 
         String directory = "data";
         String filename = "contact.txt";
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
 
-        List<String> lines = Files.readAllLines(dataFile);
+        try {
+            List<String> lines = Files.readAllLines(dataFile);
+            showContact();
+            System.out.println("\nenter the id no you want to delete: ");
 
-        System.out.println("enter the id no you want to delete: ");
+            Scanner scanner = new Scanner(System.in);
 
-        Scanner scanner=new Scanner(System.in);
-
-        int userInput=scanner.nextInt();
+            int userInput = scanner.nextInt();
             lines.remove(userInput - 1);
-            Files.write(Paths.get("data", "contact.txt"),lines);
+            Files.write(Paths.get("data", "contact.txt"), lines);
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
 
@@ -66,57 +70,62 @@ int i=1;
 
     }
 
-    public static void addContact() throws Exception {
-
-
-
+    public static void addContact() {
 
         String directory = "data";
         String filename = "contact.txt";
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
 
+        try {
+            List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
+            System.out.println("enter your contact name and phn no: ");
+            Scanner scanner = new Scanner(System.in);
+            String contactInfo = scanner.nextLine();
 
-       List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
-        System.out.println("enter your contact name and phn no: ");
-        Scanner scanner=new Scanner(System.in);
-        String contactInfo = scanner.nextLine();
 
+            Files.write(
+                    Paths.get("data", "contact.txt"),
+                    Arrays.asList(contactInfo),
+                    StandardOpenOption.APPEND
+            );
 
-        Files.write(
-                Paths.get("data", "contact.txt"),
-                Arrays.asList(contactInfo),
-                StandardOpenOption.APPEND
-        );
-
-        System.out.format("  %-8s ","\n"+contactList.add(contactInfo));
-        System.out.println("do you want to continue?");
-        String userInput=scanner.nextLine();
-
+            System.out.format("  %-8s ", "\n" + contactList.add(contactInfo));
+            System.out.println("do you want to continue?");
+            String userInput = scanner.nextLine();
+        } catch(Exception e){
+            System.out.println(e);
+        }
 
     }
 
 
-    public static String searchContact() throws Exception{
+    public static String searchContact() {
         String directory = "data";
         String filename = "contact.txt";
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
 
-        List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
+        int UserInput = 0;
+        try {
+            List<String> contactList = Files.readAllLines(Paths.get(directory, filename));
 
-
-        int itemIndex = contactList.indexOf(contactList);
-        System.out.println("enter a index number to search:");
-        Scanner scanner=new Scanner(System.in);
-        int UserInput=scanner.nextInt();
-        if (UserInput >= 0){
-            return contactList.get(UserInput-1);
+            showContact();
+            int itemIndex = contactList.indexOf(contactList);
+            System.out.println("\nenter a index number to search:");
+            Scanner scanner = new Scanner(System.in);
+            UserInput = scanner.nextInt();
+            if (UserInput >= 0) {
+                return contactList.get(UserInput - 1);
+            }
+            return "not found";
+        } catch (Exception e) {
+            System.out.println();
         }
+
         return "not found";
-        }
-
-        public static String editContact() throws Exception{
+    }
+/*        public static String editContact() throws Exception{
             String directory = "data";
             String filename = "contact.txt";
             Path dataDirectory = Paths.get(directory);
@@ -131,11 +140,11 @@ int i=1;
             contactList.set(0,userChoice);
             return ("item " + (userInput+1) + " has been edited!");
 
-        }
+        }*/
 
 
 
-    public static void menu() {
+    public static void menu(){
         int userInput = 0;
 
         do {
@@ -149,37 +158,51 @@ int i=1;
         }while (userInput != 0);
     }
 
-    public static void main(String[] args) throws Exception {
-       menu();
-        Contact contact = new Contact("data","contact.txt");
-
-
+    public static void options(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("enter a number between 1 to 5");
         int userInput = scanner.nextInt();
         if (userInput == 1) {
-            contact.showContact();
+            Contact.showContact();
 //            menu();
         }
         else if (userInput == 2) {
-            contact.addContact();
+            Contact.addContact();
             menu();
         }
         else if (userInput == 3) {
 
-            System.out.println( Contact. searchContact());
+            System.out.println( Contact.searchContact());
             menu();
         }
         else if (userInput==4) {
-//
-
-            contact.deleteContact();
-            contact.showContact();
+            Contact.deleteContact();
+            Contact.showContact();
             menu();
         }
-else if(userInput==5){
-    contact.editContact();
+
+        System.out.println("\nWould you like to continue?");
+        String yesChoice = scanner.next();
+        if(yesChoice.equals("y") || yesChoice.equals("yes")){
+            runApp();
+        } else {
+            System.out.println("See ya next time.");
         }
+    }
+
+    public static void runApp(){
+        Contact.menu();
+        Contact.options();
+    }
+
+
+
+    public static void main(String[] args){
+
+        Contact contact = new Contact("data","contact.txt");
+        contact.runApp();
+
+
 
 
         }
